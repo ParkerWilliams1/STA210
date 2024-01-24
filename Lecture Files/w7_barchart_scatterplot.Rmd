@@ -1,0 +1,136 @@
+---
+title: "STA 210 Week 7"
+subtitle: "Barplot and Scatterplot"
+author: "Parker Williams"
+date: "2023-10-16"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Barplot
+categorical data
+```{r}
+load("aflsmall.rdata")
+```
+
+- afl.margins: numeric
+- afl.finalist: categorical
+
+```{r}
+# frequency table for numeric
+min = min(afl.margins)
+max = max(afl.margins)
+table(cut(afl.margins, seq(min, max, 15)))
+```
+
+```{r}
+# frequency table for categorical
+freq = tabulate(afl.finalists)
+
+# levels in a catgorical variable
+# how many categories do you have?
+teams = levels(afl.finalists)
+
+data.frame(teams, freq)
+```
+
+```{r}
+# (a)
+barplot(freq)
+# (b)
+barplot(freq, names.arg = teams)
+# (c)
+barplot(freq, names.arg = teams, las = 2)
+# (d)
+barplot(freq, names.arg = teams, las = 2,
+        density = 10, angle = 30,
+        ylab = "Number of finals",
+        #xlab = "Teams",
+        main = "Finals played, 1987 - 2010")
+```
+```{r}
+# Review of Histogram and Boxplot
+hist(afl.margins)
+boxplot(afl.margins)
+```
+
+## Confusing Points
+
+- table(afl.finalists) != tabulate(afl.finalists)
+```{r}
+# mode
+table(afl.finalists)
+table(afl.margins)
+```
+
+- barplot(afl.finalists)
+```{r}
+# barplot(afl.finalists)
+```
+
+- data type
+```{r}
+class(afl.finalists)
+class(afl.margins)
+```
+
+## Scatterplot
+
+- correlation plot for two variables
+- two numeric variables
+
+```{r}
+library(car)
+data(cars)
+plot(cars$speed, cars$dist)
+plot(cars$dist, cars$speed)
+plot(cars$speed ~ cars$dist)
+
+# plot(y ~ x)
+```
+
+```{r}
+# (a)
+plot(cars$dist ~ cars$speed)
+# (b)
+plot(cars$dist ~ cars$speed,
+     xlab = "car s[eed",
+     ylab = "stopping distance",
+     main = "Scatterplot example")
+# (c) colors
+plot(cars$dist ~ cars$speed,
+     xlab = "car s[eed",
+     ylab = "stopping distance",
+     main = "Scatterplot example",
+     col = "blue")
+# (d) scatter shape
+plot(cars$dist ~ cars$speed,
+     xlab = "car s[eed",
+     ylab = "stopping distance",
+     main = "Scatterplot example",
+     col = "blue",
+     pch = 3)
+# (e) limitation for x- and y- axis
+plot(cars$dist ~ cars$speed,
+     xlab = "car s[eed",
+     ylab = "stopping distance",
+     main = "Scatterplot example",
+     col = "blue",
+     pch = 3,
+     xlim = c(0, 30),
+     ylim = c(0, 120))
+# (f) simple frame
+plot(cars$dist ~ cars$speed,
+     xlab = "car s[eed",
+     ylab = "stopping distance",
+     main = "Scatterplot example",
+     col = "blue",
+     pch = 3,
+     xlim = c(0, 30),
+     ylim = c(0, 120),
+     frame.plot = FALSE)
+```
+

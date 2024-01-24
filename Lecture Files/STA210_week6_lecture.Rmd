@@ -1,0 +1,36 @@
+---
+title: "Untitled"
+subtitle: "Boxplot"
+author: "Parker Williams"
+date: "2023-10-11"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1. Five Fundamental Summary Statistics
+```{r}
+load("aflsmall.rdata")
+summary(afl.margins)
+```
+
+2. Boxplot
+```{r}
+boxplot(afl.margins)
+```
+
+3. Boxplot with decoration 
+```{r}
+boxplot(afl.margins,
+        xlab= "AFL games, 2010",
+        ylab= "Winning margin",
+        title = "AFL Winning  Margin, 2010", # title
+        border = "red",
+        col = "gold",
+        frame.plot = FALSE,
+        staplewex = 0.5,
+        whisklty = 1
+        )
+```

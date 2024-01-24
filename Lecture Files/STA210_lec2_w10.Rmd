@@ -1,0 +1,93 @@
+---
+title: "STA210 - Data Merge"
+author: "Parker Williams"
+date: "2023-11-08"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# data frame 1
+df1 = data.frame(CustomerId = c(1:6), Product =
+c("Oven","Television","Mobile","WashingMachine","Lightings","Ipad"))
+df1
+# data frame 2
+df2 = data.frame(CustomerId = c(2, 4, 6, 7, 8), State =
+c("California","Newyork","Santiago","Texas","Indiana"))
+df2
+
+```
+
+
+1.A. Inner join
+```{r}
+df3 = merge(df1, df2, by="CustomerId")
+df3
+```
+
+1.B. Inner join with dplyr
+
+- %>% : pipeline (= connect the work)
+- dataaframe %>% work()
+```{r}
+library(dplyr)
+df3 = df1 %>% inner_join(df2, by="CustomerId")
+df3
+```
+
+2.A. Outer join (=everything)
+```{r}
+df4 = merge(df1, df2, by="CustomerId", all = T)
+df4
+```
+
+2.B. Outer join with dplyr
+```{r}
+df1 %>% full_join(df2, by="CustomerId")
+df1
+```
+
+3.A. Left join
+```{r}
+df5 = merge(df1, df2, by="CustomerId", all.x = T)
+df5
+```
+
+3.B. Left join with dplyr
+```{r}
+df5 = df1 %>% left_join(df2, by="CustomerId")
+df5
+```
+
+4.A. Right join
+```{r}
+df6 = merge(df1, df2, by="CustomerId", all.y = T)
+df6
+```
+
+4.B. Right join with dplyr
+```{r}
+df6 = df1 %>% right_join(df2, by="CustomerId")
+df6
+```
+
+5. Semi join with dplyr
+```{r}
+df7 = df1 %>% semi_join(df2, by = "CustomerId")
+df7
+```
+
+6. Anti join with dplyr
+```{r}
+df8 = df1 %>% anti_join(df2, by = "CustomerId")
+df8
+```
+
+7. Cross join
+```{r}
+df9 = merge(df1, df2, by=NULL)
+df9
+```

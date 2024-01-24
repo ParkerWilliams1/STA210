@@ -1,0 +1,64 @@
+---
+title: "STA 210 Week5"
+author: "Parker Williams"
+date: "2023-10-02"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Descriptive Statistics
+
+```{r}
+library(lsr)
+library(car)
+load("parenthood.rdata")
+```
+
+### overall summary
+
+```{r}
+# 5 fundamental values
+summary(parenthood$dan.sleep)
+```
+
+describe() will require the library, *psych*
+```{r}
+library(psych)
+describe(parenthood$dan.sleep)
+describe(parenthood)
+```
+
+## Correlation and Covariance
+```{r}
+data(cars)
+```
+
+1. Five fundamental values?
+```{r}
+summary(cars)
+```
+
+2. Std. Dev.?
+```{r}
+sd(cars$speed)
+sd(cars$dist)
+
+describe(cars)
+```
+
+3. Correlation
+```{r}
+cor(cars$speed, cars$dist)
+```
+
+4. Covariance
+```{r}
+cov(cars$speed, cars$dist)
+```
+
+
+
+

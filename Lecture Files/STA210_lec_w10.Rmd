@@ -1,0 +1,108 @@
+---
+title: "STA210_w10_lec"
+author: "Parker Williams"
+date: "2023-11-06"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+2. Subset
+```{r}
+garden[1, 2]
+garden[1:3, 2]
+#garden[1:3, ] is error due to no column
+
+garden[1:3, 2:3]
+garden[c(1,3,4), c(1,3)]
+garden[c(1,3,4), c("speaker", "line")]
+```
+
+
+```{r}
+garden[4:5, c("speaker", "utterance")]
+garden[ (garden$speaker == "makkaa-pakka"), c("speaker", "utterance")]
+```
+
+# example
+```{r}
+library(Lahman)
+data(Batting)
+Dodgers = Batting[Batting$teamID == "LAN", c("playerID", "G", "AB")]
+```
+
+3. Drop
+```{r}
+garden[-1, ]
+garden[, -1]
+```
+
+## List (extra)
+```{r}
+lst = list(c(1, 2), TRUE, c("a", "b", "c"))
+lst[c(1, 2)]
+#lst[[c(1, 2)] -> error
+
+lst = list(numeric = c(1, 2),
+           logical = TRUE,
+           char = c("a", "b", "c"))
+lst$numeric
+```
+
+## Sorting
+
+The **sort()** functiona - 1D data
+
+- numeric: sort(num)
+- character: sort(cha)
+- factor: sort(fac)
+- logical: sort(logical)
+
+The **order()** function - 2D data structure
+
+- data frame: final[order(final$grades), ]
+
+```{r}
+numbers = c(2, 4, 3)
+sort(numbers)
+numbers
+
+seq = c(2:10, 1)
+sort(seq, decreasing = T)
+sort(seq, decreasing = F)
+```
+
+```{r}
+text = c("rabbit", "monkey", "lamb", "horse", "money")
+sort(text)
+sort(text, decreasing = T)
+sort(text, decreasing = F)
+```
+
+```{r}
+classes = c("sta101", "sta210", "sta1101")
+sort(classes)
+```
+
+```{r}
+scores = c(90, 87, 69, 89, 58, 93, 99, 98, 76, 88)
+grades = c("A-", "B+", "F", "B+", "F", "A", "A", "A", "C+", "B+")
+grades = as.factor(grades)
+final = data.frame(scores, grades)
+final
+
+#sort(final)
+#final[sort(final$grades), ] -> Error
+
+order(final$grades)
+final[order(final$grades), ]
+final[with(final, order(grades)) , ]
+```
+
+
+
+
+

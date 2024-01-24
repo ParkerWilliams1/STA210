@@ -1,0 +1,96 @@
+---
+title: "STA 210 Histogram"
+author: "Parker Williams"
+date: "2023-10-09"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Frequency table
+```{r}
+load("aflsmall.rdata")
+table(afl.margins)
+```
+
+## Histogram for numeric
+```{r}
+hist(afl.margins)
+hist(afl.margins, labels = T)
+```
+
+```{r}
+# (a) baseline
+hist(afl.margins)
+# (b) breaks = bins
+hist(afl.margins, breaks = 5)
+# (c) breaks = 0:116 (sequence)
+hist(afl.margins, breaks = 0:116)
+# (d) labels = number on top
+hist(afl.margins, labels = T)
+```
+
+### How do we calculate bins number?
+1. Sturge's rule
+ $$ 1 + ceil(\log_2(n))$$
+```{r}
+1 + ceiling(log2(length(afl.margins)))
+```
+
+2. Freedman-Diaconis Rule
+
+$$bin \, width \frac{2IQR}{n^{1/3}}$$
+
+
+```{r}
+library(psych)
+width = 2*IQR(afl.margins)/176^(1/3)
+width
+```
+
+$$bins = ceil \left(\frac{max - min}{width} \right) $$
+
+```{r}
+ceiling( (max(afl.margins)-min(afl.margins))/width )
+```
+
+### Final product of histogram
+```{r}
+hist(afl.margins, main = "2010 AFL margins", 
+     xlab = "Margins",
+      density = 20,
+      border = "pink",
+     col = "orange",
+     labels = T,
+     ylim = c(0, 40))
+```
+
+library(sportyR)
+# MLB field
+geom_baseball("mlb", display_range = "infield)
+
+# library
+library(ggplot2)
+library(dplyr)
+library(hrbrthemes)
+
+# Build dataset with different distributions
+data <- data.frame(
+  type = c( rep("variable 1", 1000), rep("variable 2", 1000) ),
+  value = c( rnorm(1000), rnorm(1000, mean=4) )
+)
+
+# Represent it
+p <- data %>%
+  ggplot( aes(x=value, fill=type)) +
+    geom_histogram( color="#e9ecef", alpha=0.6, position = 'identity') +
+    scale_fill_manual(values=c("#69b3a2", "#404080")) +
+    theme_ipsum() +
+    labs(fill="")
+    
+
+
+
+
