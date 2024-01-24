@@ -1,0 +1,104 @@
+---
+title: "STA210 - Homework #8"
+author: "Parker Williams"
+date: "2023-11-06"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Section A
+
+Data import
+```{r}
+library(Lahman)
+data("Batting")
+summary(Batting$yearID)
+```
+
+1. Filter the data for the year 2021 for Dodgers (LAN) and Guardians (CLE)
+```{r}
+# Year 2021
+condition = Batting$yearID == 2021
+Batting21 = subset(Batting, subset = condition)
+
+condition2 = Batting$teamID %in% c("LAN", "CLE")
+
+LAN_CLE_21 = subset(Batting,
+                    subset = condition & condition2)
+
+# verification
+levels(LAN_CLE_21$teamID)
+LAN_CLE_21$teamID = droplevels(LAN_CLE_21$teamID)
+levels(LAN_CLE_21$teamID)
+```
+
+2. Variable creation 
+```{r}
+LAN_CLE_21$enough.play = ifelse(LAN_CLE_21$G >= mean(LAN_CLE_21$G), "yes", "no")
+```
+
+3. Slicing
+```{r}
+df = subset(LAN_CLE_21, select = c(teamID, G, AB, HR, enough.play))
+```
+
+4. Tabulation
+
+(a) cross-frequency table
+```{r}
+table(df$enough.play, df$teamID)
+```
+
+(b) marginal proportional table
+```{r}
+prop.table(table(df$enough.play, df$teamID), margin = 1)
+```
+
+(c) teamID vs HR
+```{r}
+table(df$HR, df$teamID)
+```
+In the context of player participation and home runs, LAN (Dodgers) has more players with 0 home runs and fewer players hitting more home runs, while CLE (Guardians) has a broader distribution of home run counts with more players hitting multiple home runs. This suggests potential differences in the power hitting abilities of the two teams.
+
+## Section B
+
+```{r}
+age <- c(31, 49, 47, 38, 67, 52, 55)
+salary <- c(103200, 106200, 150200, 10606, 10390, 14070, 10220)
+gender <- c("male", "male", "male", "female", "female", "female", "male")
+employee <- data.frame(age, salary, gender)
+```
+
+5. variable creation
+```{r}
+employee$f.age = cut(employee$age,
+                     breaks = 3,
+                     labels = c("Young", "Medium", "Aged")
+                     )
+employee$f.age = as.factor(employee$f.age)
+```
+
+6. variable creation
+```{r}
+library(lsr)
+employee$sal = quantileCut(employee$salary,
+                  n = 3,
+                  labels = c("Low", "Medium", "High"))
+employee$sal = as.factor(employee$sal)
+```
+
+7. cross-frequency table
+```{r}
+table(employee$f.age, employee$sal)
+```
+Salary distribution shows age disparity as the "Young" and "Aged" age groups lack "High" salaries, while the "Medium" group has a more balanced distribution, including "High" salaries.
+
+
+
+
+
+
+

@@ -1,0 +1,104 @@
+---
+title: "STA210 - Homework #11"
+author: "Parker Williams"
+date: "2023-12-09"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1. Use a simple ifelse statement to add a new column vocalist to the data frame student.df:
+
+```{r}
+import(Vocalist)
+# NOT PROVIDED LIBRARY FOR student.df, Code below would function if student.df was provided.
+# student.df$vocalist <- ifelse(student.df$instrument == "vocal", TRUE, FALSE)
+
+```
+
+# 2. if-else
+
+```{r}
+# Given variables
+medium <- "LinkedIn"
+num_views <- 14
+
+# Code with if and else statements
+if (medium == "LinkedIn") {
+  print("Showing LinkedIn information")
+} else {
+  print("Unknown medium")
+}
+
+if (num_views > 15) {
+  print("You're popular!")
+} else {
+  print("Try to be more visible!")
+}
+
+```
+
+# 3. 
+
+```{r}
+# set up
+month <- 0          # count the number of months
+balance <- 300000   # initial mortgage balance
+payments <- 1680    # monthly payments
+interest <- 0.05    # 5% interest rate per year
+total.paid <- 0     # track what you’ve paid the bank
+
+# convert annual interest to a monthly multiplier
+monthly.multiplier <- (1 + interest)^(1/12)
+```
+
+## (a)
+```{r}
+while (balance > 0) {
+  month <- month + 1
+  balance <- balance * monthly.multiplier - payments
+  total.paid <- total.paid + payments
+}
+```
+
+## (b)
+```{r}
+month
+```
+
+## (c)
+```{r}
+total.paid
+```
+
+# 4.
+```{r}
+data(rivers)
+head(rivers)
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

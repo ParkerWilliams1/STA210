@@ -1,0 +1,71 @@
+---
+title: "STA210 - Homework 5"
+author: "Parker Williams"
+date: "2023-10-09"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(worldfootballR)
+prem_shooting_data = fb_season_team_stats(
+  country = "ENG",
+  gender = "M",
+  tier = "1st",
+  season_end_year = 2023,
+  stat_type = "shooting")
+```
+
+Slice the data
+```{r}
+library(dplyr)
+prem_shooting_data = prem_shooting_data%>%
+  select(Squad, Gls_Standard, Dist_Standard, xG_Expected)
+```
+
+1. Cov(xG_Expected, Gls_Standard)
+```{r}
+cov(prem_shooting_data$xG_Expected, prem_shooting_data$Gls_Standard)
+```
+
+2. Interpret 1.
+Covariance: It is a positive covariance that is approx 60% higher than expected and it trends right.
+
+3. Cor(xG_Expected, Gls_Standard)
+```{r}
+cor(prem_shooting_data$xG_Expected, prem_shooting_data$Gls_Standard)
+```
+
+4. Correlation: It has a strong positive correlation, which means the expected amount of goals is almost perfectly correlated to the actual amount of goals.
+
+5. Correlation matrix
+
+-Cor(Gls_Standard, Dist_Standard)
+```{r}
+cor(prem_shooting_data$Gls_Standard, prem_shooting_data$Dist_Standard)
+```
+
+Meaning: This is a mild Negative correlation which means the distance doesnt really impact the actual amount of goals made
+
+-Cor(xG_Expected, Dist_Standard)
+```{r}
+cor(prem_shooting_data$xG_Expected, prem_shooting_data$Dist_Standard)
+```
+
+Meaning: This is a mild Negative correlation which means the distance doesnt really impact the actual amount of goals made
+
+What I can conclude about the most significant factor on gls_standard?
+The most significant factor in gls_standard is the expected amount of goals and the actual amount of goals
+
+## Extra Work
+```{r}
+library(corrplot)
+G = cor(prem_shooting_data[ , -1])
+corrplot(G, method = "number")
+```

@@ -1,0 +1,109 @@
+---
+title: "STA210 - Homework 7"
+subtitle: "Barplot and Scatterplot"
+author: "Parker Williams"
+date: "2023-10-23"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Libraries used
+```{r}
+library(Lahman) # baseball data
+library(dplyr)  # data playing
+library(ggplot2) # data visualization
+library(car)    # correlation plot
+```
+
+## Data
+```{r}
+data(Batting)
+dim(Batting)
+head(Batting, 3)
+tail(Batting, 3)
+```
+
+1. Barchart
+
+(a) Make a frequency table to show the number of players in each franchises (teamID):
+```{r}
+freq1 = table(Batting$teamID)
+freq2 = tabulate(Batting$teamID)
+freq1
+freq2
+```
+
+(b) barchart with x- and y- label and color
+```{r}
+barplot(freq1, xlab="x", ylab="y", col="red")
+```
+2. Scatterplot
+
+```{r}
+Dodgers = Batting[Batting$teamID == "LAN", ]
+```
+(a) simpleplot
+```{r}
+plot(Dodgers$AB, Dodgers$HR)
+```
+(b) increasing pattern
+
+(c) fancy plot
+```{r}
+library(ggplot2)
+plot(Dodgers$AB, Dodgers$HR, 
+         xlab = "At Bats (AB)",  # Label for the x-axis
+         ylab = "Homeruns (HR)", # Label for the y-axis
+         main = "Scatterplot of At Bats vs. Homeruns")
+      abline(lm(Dodgers$HR ~ Dodgers$AB), col = "red")
+
+```
+(d)
+
+```{r}
+mydata <- data.frame(Dodgers_2016$AB, Dodgers_2016$Salary)
+
+```
+
+Correlation matrix
+```{r}
+M = cor(mydata)
+```
+
+(e) Correlogram
+```{r}
+library(corrplot)
+corrplot(M, method = "number")
+```
+
+3. Partitioning
+
+(a) barchart and scatterplot
+```{r}
+par(mfrow = c(1, 2))
+barplot(freq1, xlab="x", ylab="y", col="red")
+plot(Dodgers$AB, Dodgers$HR)
+```
+(b) original plot window?
+```{r}
+# 1 row 1 col
+par(mfrow = c(1, 1))
+```
+
+(c) PNG file
+
+- copy and paste
+- PNG (submit)
+
+```{r}
+# Save the scatterplot as a PNG file
+png(filename = "scatterplot.png")
+# Save the barchart as a PNG file
+png(filename = "barchart.png")
+```
+
+
+

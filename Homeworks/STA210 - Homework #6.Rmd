@@ -1,0 +1,122 @@
+---
+title: 'Homework #6'
+author: "Parker Williams"
+date: "2023-10-16"
+output:
+  pdf_document: default
+  pdf: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Dataset
+```{r}
+library(ggplot2)
+data(msleep)
+head(msleep, 2)
+tail(msleep, 2)
+```
+
+1. Histogram
+
+Frequency Table
+```{r}
+min = min(msleep$sleep_total)
+max = max(msleep$sleep_total)
+tbl = table(cut(msleep$sleep_total, seq(1.9, 19.9, 4)))
+as.data.frame(tbl)
+```
+
+(i) Hand-written Histogram
+
+(ii) Histogram with R - 20 bins, labelled, shading lines (10 per inch)
+```{r}
+hist(msleep$sleep_total)
+```
+
+(iii) Calculation: Bins
+- Sturge's Rule
+```{r}
+strgbins = ceiling(log2(length(msleep$sleep_total)) + 1)
+strgbins
+```
+
+- Freedman's Rule
+```{r}
+iqr <- IQR(msleep$sleep_total)
+n <- length(msleep$sleep_total)
+fd_bins <- ceiling((2 * iqr) / (n^(1/3)))
+fd_bins
+```
+
+(iv) The numbers of bins: 2 bins, 20 bins, 200 bins
+```{r}
+hist(msleep$sleep_total, breaks = 2, col = "blue", 
+     main = "2 Bins")
+hist(msleep$sleep_total, breaks = 20, col = "blue",
+     main = "20 Bins")
+hist(msleep$sleep_total, breaks = 200, col = "blue", 
+     main = "200 Bins")
+```
+
+(v) Fix the errors
+```{r}
+hist(msleep$sleep_total, breaks = 20, col = "blue", 
+     main = "Histogram of sleeping time",
+     xlab = "Total time asleep per day (h)", ylab = "Count")
+```
+
+2. Boxplots
+
+(i) boxplot
+```{r}
+boxplot(msleep$sleep_total, 
+        main = "Title",
+        ylab = "time")
+```
+
+(ii) coloring
+```{r}
+boxplot(msleep$sleep_total,
+        main = "title",
+        ylab = "time",
+        whiskcol = "blue",
+        boxcol = "red",
+        col = "orange")
+```
+
+(iii) factor variable
+```{r}
+class(msleep$vore)
+class(as.factor(msleep$vore))
+levels(as.factor(msleep$vore))
+```
+
+boxplot
+```{r}
+boxplot(msleep$sleep_total ~ msleep$vore,
+        main = "Boxplot of sleeping time by diets")
+```
+
+(iv)
+
+- central value = median
+- variability = IQR box
+- skewness = shifted to the ?
+
+3. Resume wordcloud graph
+```{r}
+library(wordcloud2)
+myword = data.frame(word = c("statistical analysis", "math", "coding",
+"visuals", "storytelling", "teamwork", "singing"),
+                    rate = c(25, 20, 10, 10, 10, 5, 5))
+# wordcloud2(myword, size = 0.5)
+```
+
+
+
+
+
+

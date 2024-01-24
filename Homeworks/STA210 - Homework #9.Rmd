@@ -1,0 +1,157 @@
+---
+title: "STA210 - Homework #9"
+subtitle: "Data Merge"
+author: "Parker Williams"
+date: "2023-11-13"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Section A. merge(df1, df2, by = "key_variable")
+
+1. combine 'building' and 'data'
+```{r}
+buildings <- data.frame(location=c(1, 2, 3),
+                      name=c("building1", "building2", 
+                      "building3"))
+
+data <- data.frame(survey=c(1,1,1,2,2,2),
+                  location=c(1,2,3,2,3,1), 
+                  efficiency=c(51,64,70,71,80,58))
+
+buildingStats = merge(buildings, data, by = "location")
+
+head(buildingStats, 5)
+```
+
+
+2. combine using separate keys
+```{r}
+buildings1 <- data.frame(location=c(1, 2, 3),
+                        name=c("building1", "building2", 
+                               "building3"))
+data1 <- data.frame(survey=c(1,1,1,2,2,2),
+                            LocationID=c(1,2,3,2,3,1),
+                            efficiency=c(51,64,70,71,80,58))
+
+buildingStats1 = merge(buildings1, data1, 
+                       by.x = "location",
+                       by.y = "LocationID")
+
+head(buildingStats1, 5)
+```
+
+3. Outer join
+```{r}
+buildings <- data.frame(location=c(1, 2, 3),
+                      name=c("building1", "building2", 
+                      "building3"))
+
+data <- data.frame(survey=c(1,1,1,2,2,2),
+                  location=c(1,2,3,2,3,1), 
+                  efficiency=c(51,64,70,71,80,58))
+
+buildingStats2 = merge(buildings, data, all = T)
+
+head(buildingStats2, 5)
+```
+
+4. Left join
+```{r}
+buildings <- data.frame(location=c(1, 2, 3),
+                      name=c("building1", "building2", 
+                      "building3"))
+
+data <- data.frame(survey=c(1,1,1,2,2,2),
+                  location=c(1,2,3,2,3,1), 
+                  efficiency=c(51,64,70,71,80,58))
+
+buildingStats3 = merge(buildings, data, all.x = T)
+
+head(buildingStats3, 5)
+```
+
+5. Right join
+```{r}
+buildings <- data.frame(location=c(1, 2, 3),
+                      name=c("building1", "building2", 
+                      "building3"))
+
+data <- data.frame(survey=c(1,1,1,2,2,2),
+                  location=c(1,2,3,2,3,1), 
+                  efficiency=c(51,64,70,71,80,58))
+
+buildingStats4 = merge(buildings, data, by = NULL)
+
+head(buildingStats4, 5)
+```
+
+6. Cross join
+```{r}
+buildings <- data.frame(location=c(1, 2, 3),
+                      name=c("building1", "building2", 
+                      "building3"))
+
+data <- data.frame(survey=c(1,1,1,2,2,2),
+                  location=c(1,2,3,2,3,1), 
+                  efficiency=c(51,64,70,71,80,58))
+
+buildingStats2 = merge(buildings, data, all = T)
+
+head(buildingStats2, 5)
+```
+
+## Section B. Data merge using dplyr
+
+Import data from Lahman library
+```{r}
+library(Lahman)
+data("HallOfFame")
+data("People")
+names(HallOfFame)
+print("--------------------")
+names(People)
+```
+
+7. inner join
+```{r}
+library(dplyr)
+df = inner_join(HallOfFame, People, by="playerID")
+df = HallOfFame %>% inner_join(People, by = "playerID")
+```
+
+8. subset
+```{r}
+df1 = subset(df,
+       subset = (yearID >= 2010),
+       select = c("playerID", "height", "weight"))
+
+df1 = df %>% filter(yearID >= 2010) %>%
+  select(playerID, nameGiven, height, weight)
+```
+
+9. boxplot of height -> # of outliers??
+```{r}
+boxplot(df1$height, main = "Boxplot of Height", ylab = "Height")
+```
+
+10. cor(height, weight)
+```{r}
+cor(df1$height, df1$weight, use = "complete.obs")
+```
+
+There is evidence of a positive relationship between height and weight in the Hall of Fame data set, but the correlation is not extremely strong.
+
+
+
+
+
+
+
+
+
+
+
